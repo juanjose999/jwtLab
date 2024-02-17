@@ -11,5 +11,6 @@ public interface UserService {
     UserEntity save(UserEntity user);
 
     void delete(UserEntity user);
+    boolean validateUser(String email, String password);
 
 }

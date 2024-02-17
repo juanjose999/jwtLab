@@ -6,6 +6,7 @@ import org.adaschool.api.controller.auth.TokenDto;
 import org.adaschool.api.data.user.UserRoleEnum;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,15 @@ import static org.adaschool.api.utils.Constants.CLAIMS_ROLES_KEY;
 public class JwtUtil {
 
     private final JwtConfig jwtConfig;
+    private String secret;
+    private long expiration;
+
+    // Otros métodos y atributos...
+
+    public Date getExpirationDate() {
+        long expirationTimeInMilliseconds = Calendar.getInstance().getTimeInMillis() + expiration;
+        return new Date(expirationTimeInMilliseconds);
+    }
 
     public JwtUtil(JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;

@@ -2,17 +2,23 @@ package org.adaschool.api.controller;
 
 
 import jakarta.servlet.ServletException;
+import org.adaschool.api.ApiApplication;
 import org.adaschool.api.controller.auth.AuthController;
 import org.adaschool.api.controller.auth.TokenDto;
+import org.adaschool.api.data.config.DataSourceConfig;
 import org.adaschool.api.data.user.UserEntity;
 import org.adaschool.api.data.user.UserService;
 import org.adaschool.api.exception.InvalidCredentialsException;
+import org.adaschool.api.security.JwtRequestFilter;
 import org.adaschool.api.security.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -29,6 +35,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@SpringBootTest(classes = {ApiApplication.class, DataSourceConfig.class, JwtRequestFilter.class, JwtUtil.class})
+@AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 public class AuthControllerTest {
 
@@ -67,6 +75,8 @@ public class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("fakeToken"));
     }
+
+
 
     @Test
     public void loginFailure_InvalidCredentials() throws Exception {
