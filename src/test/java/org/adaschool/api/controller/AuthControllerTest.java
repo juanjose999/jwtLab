@@ -58,6 +58,7 @@ public class AuthControllerTest {
 
     @Test
     public void loginSuccess() throws Exception {
+        //this test is ok
         // Prepare data and mocks
         String username = "test@example.com";
         String password = "password";

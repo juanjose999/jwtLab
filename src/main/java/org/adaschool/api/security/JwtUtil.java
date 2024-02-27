@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.adaschool.api.utils.Constants.CLAIMS_ROLES_KEY;
 
@@ -31,15 +32,21 @@ public class JwtUtil {
         this.jwtConfig = jwtConfig;
     }
 
-    public TokenDto generateToken(String username, List<UserRoleEnum> roles) {
-
+    public TokenDto generateToken(String username, List<? extends UserRoleEnum> roles) {
         Date expirationDate = jwtConfig.getExpirationDate();
+
+        // Convertir la lista de roles a una lista de strings
+        List<String> rolesAsString = roles.stream()
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
         String token = Jwts.builder().subject(username)
                 .issuedAt(new Date())
                 .expiration(expirationDate)
-                .claim(CLAIMS_ROLES_KEY, roles)
+                .claim(CLAIMS_ROLES_KEY, rolesAsString)
                 .signWith(jwtConfig.getSigningKey())
                 .compact();
+
         return new TokenDto(token, expirationDate);
     }
 

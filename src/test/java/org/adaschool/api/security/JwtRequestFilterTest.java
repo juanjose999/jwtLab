@@ -79,9 +79,9 @@ class JwtRequestFilterTest {
 
         Method doFilterInternal = JwtRequestFilter.class.getDeclaredMethod("doFilterInternal", HttpServletRequest.class, HttpServletResponse.class, FilterChain.class);
         doFilterInternal.setAccessible(true);
-        try {
+        try{
             doFilterInternal.invoke(jwtRequestFilter, request, response, filterChain);
-        } catch (InvocationTargetException e) {
+        }catch (InvocationTargetException e){
             assertTrue(e.getCause() instanceof TokenExpiredException);
         }
         verify(filterChain, never()).doFilter(request, response);

@@ -32,6 +32,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+
 task adaSubmit(type: Exec) {
 	environment "JAVA_HOME", "${System.properties['java.home']}"
 
